@@ -125,7 +125,7 @@ Open **[interactive/greedy_lab.html](interactive/greedy_lab.html)** in a modern 
 
 The lab supports three complementary activities:
 
-- **Build a solution:** select a satellite, start a truck trip and add customers manually. Inspect the proposed arcs, marginal distance, demand and remaining capacity before committing. Reorder the main tour or a truck trip, move customers between trips, change a trip's satellite, and undo or redo edits.
+- **Build a solution:** select a satellite, start a truck trip and add customers manually. Customer labels show both ID and demand (for example, `C3 · q=6`), while the map displays the active trip's load/capacity and remaining capacity. Inspect the proposed arcs, marginal distance, demand and remaining capacity before committing. Reorder the main tour or a truck trip, move customers between trips, change a trip's satellite, and undo or redo edits.
 - **Compare policies:** compare nearest neighbour, cheapest closed-trip addition, addition per unit demand, largest demand first, farthest from satellite, and append-based savings. Run the same six rules on one instance or on all ten public instances. Customer assignments and the main-tour rule remain fixed within each comparison; the tables show complete objective values and equally weighted relative costs, rather than an optimality claim or course mark. Results can be downloaded as CSV.
 - **Learn the reasoning:** follow worked calculations and an empirical worksheet connecting greedy choices to load packing, the return leg, satellite selection and subsequent local search.
 

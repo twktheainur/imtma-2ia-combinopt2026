@@ -31,6 +31,7 @@ footer{border-top:1px solid var(--line);padding:22px 0 30px;background:var(--gre
 @media(max-width:390px){.brand-image{width:175px}.topbar-meta{font-size:9px}.topbar-meta strong{font-size:9px}.tab{padding:13px 12px}.tab .tab-number{display:none}.bar-row{grid-template-columns:112px minmax(0,1fr) 65px}.plot svg{min-height:230px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 @media print{@page{size:A4;margin:16mm}body{font:10pt/1.45 Arial,Helvetica,sans-serif}.wrap{max-width:none;padding:0}.topbar-inner{min-height:82px}.brand-image{width:210px}.topbar-meta{font-size:9px}.hero{display:block;padding:10px 0 18px}.hero h1{font-size:25pt}.hero p{font-size:10.5pt}.hero-art,.docnav,.skip-link,.toolbar,.row-actions,.map-controls,.candidate-tools,.download-actions,.snapshot-controls{display:none!important}.view{padding:15px 0 25px}.view[hidden]{display:none!important}.design-grid{grid-template-columns:1fr}.decision-panel{display:none}.plot svg{max-height:340px;min-height:0}.summary-grid{grid-template-columns:repeat(4,1fr)}.metric-card strong{font-size:17px}.metric-card{padding:9px}.metric-card:nth-child(n){border-top:0;border-right:1px solid var(--line);grid-column:auto}.metric-card:last-child{border-right:0}.editor-grid,.lower-grid,.guide-grid,.guide-lead{grid-template-columns:1fr 1fr;gap:14px}.group-card{padding:14px}.group-card,.worksheet,.guide-grid .worked{break-inside:avoid}.table-wrap{overflow:visible;max-height:none;border:0}table{min-width:0!important}td,thead th{font-size:8pt!important;padding:6px!important;white-space:normal;position:static}.btn,.file-button{display:none!important}.route-chip button{display:none}.route-chip{font-size:9px}.detail{max-height:none;font-size:7.5pt}.candidate-scroll{max-height:none}.section-divider{margin-top:20px;padding-top:17px}footer{background:white;padding-top:14px}.footer-mark{display:none}.bar-row{grid-template-columns:150px minmax(0,1fr) 90px}.teaching-path{grid-template-columns:repeat(3,1fr)}.teaching-path article{padding:14px;border-bottom:0;border-right:1px solid var(--line)}}
+.map-trip-summary{display:flex;align-items:center;flex-wrap:wrap;gap:5px 18px;padding:11px 13px;background:var(--soft-cyan);border-bottom:1px solid var(--line);font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}.map-trip-summary strong{font-size:13px}.map-trip-summary .trip-color{width:23px;height:4px;flex-shrink:0}.map-trip-summary span:not(.trip-color){white-space:normal}
 </style>
 </head>
 <body>
@@ -45,9 +46,9 @@ footer{border-top:1px solid var(--line);padding:22px 0 30px;background:var(--gre
 <div id="statusMessage" class="notice" role="status" aria-live="polite"></div>
 <div id="summaryMetrics" class="summary-grid" aria-label="Current solution indicators"></div>
 <div class="design-grid">
-<section class="connection-map" aria-label="Interactive route map"><div class="map-toolbar"><h3>The route as you build it</h3><div class="map-controls"><label class="check"><input id="labelToggle" type="checkbox" checked>Node labels</label><button type="button" class="btn subtle" id="zoomOut" aria-label="Zoom out">−</button><button type="button" class="btn subtle" id="zoomIn" aria-label="Zoom in">+</button><button type="button" class="btn subtle" id="fitMap">Fit</button></div></div><div class="plot"><svg id="routePlot" viewBox="0 0 900 560" role="img" aria-label="Interactive map of the depot, satellites, customers, and current routes" aria-describedby="mapCaption"></svg><div id="mapCaption" class="plot-note">Select a satellite or customer on the map. Drag to pan; scroll to zoom. The controls and customer table provide the same choices without using the map.</div></div><div class="legend" aria-label="Map legend"><span><i class="key-node depot"></i>Main depot</span><span><i class="key-node"></i>Satellite</span><span><i class="key-node customer"></i>Customer</span><span><i class="swatch main"></i>Truck + trailer</span><span><i class="swatch" style="background:var(--cyan)"></i>Truck trip</span><span><i class="swatch preview"></i>Proposed addition</span></div><div class="map-task"><strong>Your first experiment</strong><p>Start a trip from a satellite. Compare the nearest customer with the customer that adds the least distance once the return to the satellite is included. Predict the effect before adding it.</p></div></section>
+<section class="connection-map" aria-label="Interactive route map"><div class="map-toolbar"><h3>The route as you build it</h3><div class="map-controls"><label class="check"><input id="labelToggle" type="checkbox" checked>IDs + demands</label><button type="button" class="btn subtle" id="zoomOut" aria-label="Zoom out">−</button><button type="button" class="btn subtle" id="zoomIn" aria-label="Zoom in">+</button><button type="button" class="btn subtle" id="fitMap">Fit</button></div></div><div class="plot"><div id="mapTripSummary" class="map-trip-summary" aria-label="Active trip load"></div><svg id="routePlot" viewBox="0 0 900 560" role="img" aria-label="Interactive map of the depot, satellites, customers, and current routes" aria-describedby="mapCaption"></svg><div id="mapCaption" class="plot-note">Select a satellite or customer on the map. Drag to pan; scroll to zoom. The controls and customer table provide the same choices without using the map.</div></div><div class="legend" aria-label="Map legend"><span><i class="key-node depot"></i>Main depot</span><span><i class="key-node"></i>Satellite</span><span><i class="key-node customer"></i>C = customer ID · q = demand</span><span><i class="swatch main"></i>Truck + trailer</span><span><i class="swatch" style="background:var(--cyan)"></i>Truck trip</span><span><i class="swatch preview"></i>Proposed addition</span></div><div class="map-task"><strong>Your first experiment</strong><p>Start a trip from a satellite. Compare the nearest customer with the customer that adds the least distance once the return to the satellite is included. Predict the effect before adding it.</p></div></section>
 <aside class="group-card pink decision-panel" aria-label="Step-by-step construction controls">
-<div class="decision-step"><div class="step-title"><span class="step-number">1</span><h3>Choose a satellite</h3></div><label class="field full">Parking and reload point<select id="satelliteSelect"></select></label><div class="row-actions spaced"><button type="button" class="btn subtle" id="addSatellite">Visit satellite</button><button type="button" class="btn primary" id="startTrip">Start truck trip</button></div><p id="satelliteHint" class="hint"></p></div>
+<div class="decision-step"><div class="step-title"><span class="step-number">1</span><h3>Choose a satellite</h3></div><label class="field full">Satellite for a new trip<select id="satelliteSelect"></select></label><div class="row-actions spaced"><button type="button" class="btn subtle" id="addSatellite">Visit satellite</button><button type="button" class="btn primary" id="startTrip">Start truck trip</button></div><p id="satelliteHint" class="hint"></p></div>
 <div class="decision-step"><div class="step-title"><span class="step-number">2</span><h3>Choose your next customer</h3></div><label class="field full">Active truck trip<select id="activeTripSelect"></select></label><div id="selectedCustomer" class="selection-box"></div><button type="button" class="btn wide" id="addSelected" disabled>Add selected customer</button><p class="hint">A trip always returns to its own satellite. You can remove or reorder its customers below.</p></div>
 <div class="decision-step"><div class="step-title"><span class="step-number">3</span><h3>Ask a greedy rule</h3></div><label class="field full">Candidate ordering<select id="policySelect"></select></label><p id="policyDescription" class="hint"></p><div id="nextChoice" class="choice-box"></div><div class="row-actions spaced"><button type="button" class="btn primary" id="greedyStep" disabled>Take one step</button><button type="button" class="btn subtle" id="fillTrip" disabled>Fill this trip</button></div><p class="hint">“Fill this trip” repeats the rule until no unserved customer fits. It leaves other trips unchanged.</p></div>
 </aside>
@@ -843,7 +844,7 @@ function renderControls() {
   $('startTrip').disabled=!A.unserved.length;
   $('activeTripSelect').replaceChildren();
   option($('activeTripSelect'),-1,S.truck_routes.length?'Choose a truck trip':'Start your first truck trip');
-  S.truck_routes.forEach((trip,i)=>option($('activeTripSelect'),i,`Trip ${i+1} · S${trip.satellite} · ${qty(A.loads[i]||0)} / ${qty(I.truck_capacity)}`));
+  S.truck_routes.forEach((trip,i)=>option($('activeTripSelect'),i,`Trip ${i+1} · S${trip.satellite} · load ${qty(A.loads[i]||0)} / ${qty(I.truck_capacity)}`));
   $('activeTripSelect').value=String(activeTrip);
   const trip=S.truck_routes[activeTrip];
   $('tripRootSelect').disabled=!trip; $('changeTripRoot').disabled=!trip;
@@ -1004,6 +1005,13 @@ function zoom(factor) {
 }
 function drawMap() {
   const svg=$('routePlot');svg.replaceChildren();
+  const trip=S.truck_routes[activeTrip],summary=$('mapTripSummary');
+  summary.replaceChildren();
+  if(trip) {
+    const load=A.loads[activeTrip]||0,swatch=el('span',undefined,'trip-color');
+    swatch.style.background=COLORS[activeTrip%COLORS.length];swatch.setAttribute('aria-hidden','true');
+    summary.append(swatch,el('strong',`Active trip ${activeTrip+1} · S${trip.satellite}`),el('span',`Load ${qty(load)} / ${qty(I.truck_capacity)}`),el('span',`Remaining ${qty(Math.max(0,I.truck_capacity-load))}`));
+  } else summary.append(el('span','Select a truck trip to display its assigned load and remaining capacity.'));
   const nodes=[I.depot,...I.satellites,...I.customers], byId=new Map(nodes.map(n=>[n.id,n]));
   // Normalize first to avoid overflow when a valid imported coordinate is large.
   const magnitude=Math.max(1,...nodes.map(n=>Math.abs(n.x)),...nodes.map(n=>Math.abs(n.y)));
@@ -1023,13 +1031,13 @@ function drawMap() {
   }
   line(S.main_route,'#14223C',4,.75,'10 6');
   S.truck_routes.forEach((trip,index)=>line([trip.satellite,...trip.customers,trip.satellite],COLORS[index%COLORS.length],index===activeTrip?4:2,index===activeTrip||activeTrip<0?.95:.22));
-  const trip=S.truck_routes[activeTrip],candidate=candidates.find(c=>c.id===selectedCustomer);
+  const candidate=candidates.find(c=>c.id===selectedCustomer);
   if(trip&&candidate) {
     const tail=trip.customers.at(-1)??trip.satellite;
     line([tail,trip.satellite],'#F14862',4,.9,'3 6');
     line([tail,candidate.id,trip.satellite],candidate.eligible?'#00A0BF':'#F14862',4,1,'8 4');
   }
-  const satIds=new Set(I.satellites.map(s=>s.id)),assigned=new Map();
+  const satIds=new Set(I.satellites.map(s=>s.id)),assigned=new Map(),labels=[],selectedLabels=[];
   S.truck_routes.forEach((trip,index)=>trip.customers.forEach(id=>assigned.set(id,index)));
   for(const node of nodes) {
     const [x,y]=point(node.id),isDepot=node.id===I.depot.id,isSat=satIds.has(node.id),selected=isSat?node.id===selectedSat:node.id===selectedCustomer;
@@ -1044,11 +1052,26 @@ function drawMap() {
     else if(isSat)shape=svgEl('rect',{x:x-8,y:y-8,width:16,height:16,fill:S.main_route.includes(node.id)?'#00B8DE':'white',stroke:'#007D9C','stroke-width':2.5});
     else shape=svgEl('circle',{cx:x,cy:y,r:selected?7:5.5,fill:assigned.has(node.id)?COLORS[assigned.get(node.id)%COLORS.length]:'white',stroke:assigned.has(node.id)?'white':'#47546A','stroke-width':assigned.has(node.id)?1.5:2});
     group.append(shape);
-    if($('labelToggle').checked||isDepot||isSat||selected)group.append(svgEl('text',{x:x+12,y:y-10,fill:'#14223C','font-size':12,'font-family':'Arial,Helvetica,sans-serif','paint-order':'stroke',stroke:'white','stroke-width':4,'stroke-linejoin':'round'},isDepot?'D'+node.id:isSat?'S'+node.id:node.id));
+    if($('labelToggle').checked||isDepot||isSat||selected) {
+      const text=isDepot?'D'+node.id:isSat?'S'+node.id:`C${node.id} · q=${qty(node.demand)}`;
+      const toLeft=x+12+text.length*7.2>885;
+      const label=svgEl('text',{x:x+(toLeft?-12:12),y:y<35?y+25:y-12,'text-anchor':toLeft?'end':'start',fill:'#14223C','font-size':12,'font-weight':selected?700:400,'font-family':'Arial,Helvetica,sans-serif','paint-order':'stroke',stroke:'white','stroke-width':4,'stroke-linejoin':'round','pointer-events':'none','data-node-label':node.id,'data-label-kind':isDepot?'depot':isSat?'satellite':'customer'},text);
+      (selected?selectedLabels:labels).push(label);
+    }
     const choose=()=>{if(isSat){selectedSat=node.id;renderControls();drawMap();notify(`Satellite ${node.id} selected. Use “Start trip” to begin here.`);}else if(!isDepot)selectCustomer(node.id);};
     group.addEventListener('click',e=>{e.stopPropagation();if(!suppressClick)choose();});
     group.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();}});
     svg.append(group);
+  }
+  // Keep labels readable above every route/node; selected labels have priority.
+  // Shift only text, never node coordinates or the distances used for scoring.
+  for(const label of [...labels,...selectedLabels]) {
+    svg.append(label);
+    const box=label.getBBox(),x=Number(label.getAttribute('x'));
+    if(box.width>884){label.setAttribute('textLength','884');label.setAttribute('lengthAdjust','spacingAndGlyphs');}
+    const bounds=label.getBBox();
+    if(bounds.x<8)label.setAttribute('x',x+8-bounds.x);
+    else if(bounds.x+bounds.width>892)label.setAttribute('x',x+892-bounds.x-bounds.width);
   }
   $('mapCaption').textContent=I.distance.type==='explicit'?'Coordinates are schematic. All indicators use the supplied cost matrix; drawn line lengths need not match costs.':`Equal scale on both axes. ${I.distance.type==='rounded_euclidean'?'Costs use rounded Euclidean distances.':'Costs use unrounded Euclidean distances.'} Pan by dragging; zoom with the controls. Dotted cyan = proposed arcs; dotted pink = replaced return.`;
   applyMapView();
